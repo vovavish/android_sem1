@@ -7,6 +7,9 @@ import android.graphics.Paint
 import android.util.AttributeSet
 import android.view.View
 import java.util.Calendar
+import kotlin.math.cos
+import kotlin.math.min
+import kotlin.math.sin
 
 class CustomClockView @JvmOverloads constructor(
     context: Context,
@@ -26,7 +29,7 @@ class CustomClockView @JvmOverloads constructor(
 
     override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
         super.onSizeChanged(w, h, oldw, oldh)
-        radius = (Math.min(w, h) / 2 * 0.8).toFloat()
+        radius = (min(w, h) / 2 * 0.8).toFloat()
         centerX = w / 2f
         centerY = h / 2f
     }
@@ -45,10 +48,10 @@ class CustomClockView @JvmOverloads constructor(
         paint.strokeWidth = 5f
         for (i in 0 until 12) {
             val angle = Math.PI / 6 * i
-            val startX = centerX + (radius * 0.9 * Math.cos(angle)).toFloat()
-            val startY = centerY + (radius * 0.9 * Math.sin(angle)).toFloat()
-            val stopX = centerX + (radius * Math.cos(angle)).toFloat()
-            val stopY = centerY + (radius * Math.sin(angle)).toFloat()
+            val startX = centerX + (radius * 0.9 * cos(angle)).toFloat()
+            val startY = centerY + (radius * 0.9 * sin(angle)).toFloat()
+            val stopX = centerX + (radius * cos(angle)).toFloat()
+            val stopY = centerY + (radius * sin(angle)).toFloat()
             canvas.drawLine(startX, startY, stopX, stopY, paint)
         }
     }
@@ -76,8 +79,8 @@ class CustomClockView @JvmOverloads constructor(
     }
 
     private fun drawHand(canvas: Canvas, angle: Double, length: Float) {
-        val stopX = centerX + (length * Math.cos(angle - Math.PI / 2)).toFloat()
-        val stopY = centerY + (length * Math.sin(angle - Math.PI / 2)).toFloat()
+        val stopX = centerX + (length * cos(angle - Math.PI / 2)).toFloat()
+        val stopY = centerY + (length * sin(angle - Math.PI / 2)).toFloat()
         canvas.drawLine(centerX, centerY, stopX, stopY, paint)
     }
 }
